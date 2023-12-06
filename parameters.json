@@ -1,0 +1,12 @@
+{
+    "database": {
+      "host": "localhost",
+      "user": "root",
+      "password":"prueba123",
+      "database": "analyzer"
+    },
+    "OpenAI" :{
+      "secretKey": "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"
+    }
+  }
+  
