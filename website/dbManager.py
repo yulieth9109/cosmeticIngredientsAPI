@@ -1,5 +1,4 @@
 import mysql.connector, datetime
-from.User import User
 from mysql.connector import Error
 import website.parameters as parameters
 
