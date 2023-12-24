@@ -136,6 +136,44 @@ class dbManager:
         result = ConexionDB.executeQry(qry, "QRY", "")
         return result
 
+    @staticmethod
+    def createReview(title, description, rate, author, product):
+        creation_date = str(datetime.datetime.now().date())
+        qry = f"INSERT INTO review (title, description, rate, author, product, creationDate) VALUES ('{title}', '{description}', {rate}, {author}, {product}, '{creation_date}')"
+        print('qry' + qry)
+        result = ConexionDB.executeQry(qry,"INSERT", "")
+        return result
+
+    @staticmethod
+    def getReviews(idProduct):
+        qry = """
+            SELECT r.id AS id, r.title, r.description, r.rate, r.creationDate, u.name AS authorName
+            FROM analyzer.review AS r
+            JOIN analyzer.user AS u ON r.author = u.id
+            WHERE r.product = """ + idProduct + " ORDER BY creationDate DESC;"
+        result = ConexionDB.executeQry(qry, "QRY", "")
+        return result
+
+    @staticmethod
+    def getUserReviews(userId):
+        qry = """
+            SELECT r.id AS id, r.title, r.description, r.rate, r.creationDate, p.name AS productName
+            FROM analyzer.review AS r
+            JOIN analyzer.product AS p ON r.product = p.Id
+            WHERE r.author = """ + userId + " ORDER BY creationDate DESC;"
+        print(qry)
+        result = ConexionDB.executeQry(qry, "QRY", "")
+        return result
+
+    @staticmethod
+    def deleteReview(idReview):
+        qry = f"DELETE FROM analyzer.review WHERE id = {idReview}"
+        print(qry)
+        result = ConexionDB.executeQry(qry, "UPDATE", "")
+        return result
+
+
+
 class User ():
   def __init__(self, name, email, status, password, id):
     self.name = name

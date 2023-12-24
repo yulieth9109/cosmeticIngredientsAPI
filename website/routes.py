@@ -37,3 +37,19 @@ def getInfoById():
 @routes.route('/search', methods=['POST'])
 def searchProducts():
     return mainControllerC.searchProducts(request)
+
+@routes.route('/Review', methods=['POST'])
+def createReview():
+    return mainControllerC.createReview(request)
+
+@routes.route('/Reviews', methods=['POST'])
+def getReviews():
+    return mainControllerC.getReviews(request)
+
+@routes.route('/userReviews', methods=['POST'])
+def getUserReviews():
+    return mainControllerC.getUserReviews(request)
+
+@routes.route('/deleteReview', methods=['POST'])
+def deleteReview():
+    return mainControllerC.deleteReview(request)

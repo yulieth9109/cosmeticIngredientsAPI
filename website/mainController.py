@@ -119,6 +119,63 @@ class mainController:
             return Response("Error interno en el servidor", status=400)
 
     @staticmethod
+    def createReview(request):
+        try:
+            bodyData = request.json
+            print(bodyData)
+            title = bodyData['title']
+            description = bodyData['description']
+            rate = bodyData['rate']
+            author = bodyData['idAuthor']
+            product = bodyData['idProduct']
+            print('Hola')
+            idReview = dbManager.createReview(title, description, rate, author, product)
+            if isinstance(idReview, int) and idReview > 0:
+                return Response("OK", status=200)
+            else:
+                print("idReview" + idReview)
+                return Response("Reseña no creada, intente de nuevo", status=400)
+        except Exception as e:
+            print(e)
+            return Response("Error interno en el servidor", status=400)
+
+    @staticmethod
+    def getReviews(request):
+        try:
+            idProduct = request.data.decode('utf-8')
+            print(idProduct)
+            reviews = dbManager.getReviews(idProduct)
+            data = Additional.getReviews(reviews)
+            return data
+        except Exception as e:
+            print(e)
+            return Response("No se encontraron resultados", status=400)
+
+    @staticmethod
+    def getUserReviews(request):
+        try:
+            idUser = request.data.decode('utf-8')
+            print(idUser)
+            reviews = dbManager.getUserReviews(idUser)
+            data = Additional.getUserReviews(reviews)
+            return data
+        except Exception as e:
+            print(e)
+            return Response("No se encontraron resultados", status=400)
+
+    @staticmethod
+    def deleteReview(request):
+        try:
+            idReview = request.data.decode('utf-8')
+            print(idReview)
+            dbManager.deleteReview(idReview)
+            return Response("OK", status=200)
+        except Exception as e:
+            print(e)
+            return Response("No se encontraron resultados", status=400)
+
+
+    @staticmethod
     def confirmEmail(token):
         global urlS
         try:
@@ -167,6 +224,30 @@ class Additional:
                 products_json.append(content)
                 print(products_json)
             return jsonify(products_json)
+        else:
+            return Response("No information found", status=404)
+
+    @staticmethod
+    def getReviews(reviews):
+        if reviews:
+            reviews_json = []
+            for result in reviews:
+                content = {"id": result[0], "title": result[1], "description" : result[2], "rate" : result[3], "creationDate" : result[4].isoformat(), "authorName" : result[5]}
+                reviews_json.append(content)
+            print(reviews_json)
+            return jsonify(reviews_json)
+        else:
+            return Response("No information found", status=404)
+
+    @staticmethod
+    def getUserReviews(reviews):
+        if reviews:
+            reviews_json = []
+            for result in reviews:
+                content = {"id": result[0], "title": result[1], "description" : result[2], "rate" : result[3], "creationDate" : result[4].isoformat(), "productName" : result[5]}
+                reviews_json.append(content)
+                print(reviews_json)
+            return jsonify(reviews_json)
         else:
             return Response("No information found", status=404)
 

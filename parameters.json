@@ -2,15 +2,15 @@
     "database": {
       "host": "localhost",
       "user": "root",
-      "password":"",
+      "password":"prueba123",
       "database": "analyzer"
     },
     "OpenAI" :{
-      "secretKey": ""
+      "secretKey": "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"
     },
     "mailLogin": {
-      "user": "",
-      "password":""
+      "user": "blots.contact@gmail.com",
+      "password":"qeus lret yegf xiie"
     }
   }
   
